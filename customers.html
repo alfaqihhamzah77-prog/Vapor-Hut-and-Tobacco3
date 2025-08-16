@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Check Your Points</title>
+</head>
+<body>
+  <h2>Check Your Points</h2>
+  <input type="text" id="cardID" placeholder="Enter your Card ID">
+  <button onclick="checkPoints()">Show Points</button>
+  <p id="result"></p>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwFxka9iMschPbUE861Lu24-iga78K-WQPDV1x64t3_vNpcPU_mV6kGFKG1Q4rDWu0P/exec";
+
+    async function checkPoints() {
+      const cardID = document.getElementById("cardID").value.trim();
+      const url = `${API_URL}?action=check&cardID=${encodeURIComponent(cardID)}`;
+      try {
+        const resp = await fetch(url);
+        const points = await resp.text();
+        document.getElementById("result").innerText = isNaN(points) ? "Card not found" : `Your current points: ${points}`;
+      } catch(e) {
+        document.getElementById("result").innerText = "Error occurred, please try again";
+      }
+    }
+  </script>
+</body>
+</html>
